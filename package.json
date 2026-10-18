@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "animate.css": "^4.1.1",
+    "dotenv": "^17.2.3",
+    "multer": "^2.0.2",
+    "nodemailer": "^7.0.9",
+    "sweetalert2": "^11.26.3"
+  }
+}
