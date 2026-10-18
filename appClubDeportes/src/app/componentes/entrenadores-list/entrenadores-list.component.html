@@ -1,0 +1,135 @@
+<div class="trainers-list-container">
+  <!-- Fondo con imagen -->
+  <div class="background-container">
+    <div class="background-image"></div>
+    <div class="background-overlay"></div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="container">
+    <!-- Header -->
+    <div class="page-header">
+      <h2>
+        <i class="fas fa-users me-2"></i> Entrenadores del Club
+      </h2>
+      <p>Gestiona y visualiza todos los entrenadores registrados</p>
+    </div>
+
+    <!-- === Búsqueda de entrenadores === -->
+    <div class="search-container">
+      <div class="search-box">
+        <div class="input-group">
+          <span class="input-icon"><i class="fas fa-search"></i></span>
+          <input type="text" class="search-input"
+                 placeholder="Buscar entrenador por nombre, especialidad o disciplina..."
+                 [(ngModel)]="terminoBusqueda" (input)="filtrarEntrenadores()">
+        </div>
+      </div>
+    </div>
+
+    <!-- === Mensaje si no hay resultados === -->
+    <div *ngIf="entrenadoresFiltrados.length === 0 && terminoBusqueda"
+         class="no-results">
+      <i class="fas fa-user-times"></i>
+      <p>No se encontró ningún entrenador</p>
+      <small>Intenta con otros términos de búsqueda</small>
+    </div>
+    <div class="back-button-container">
+      <a href="/menu" class="back-btn">
+        <i class="fas fa-home"></i>Menú
+      </a>
+    </div>
+
+    <!-- === Grid de entrenadores === -->
+    <div class="members-grid">
+      <div class="member-card" *ngFor="let entrenador of entrenadoresFiltrados">
+        <!-- Header -->
+        <div class="card-header">
+          <div class="member-name">
+            <h3>{{entrenador.nombreEntrenador}} {{entrenador.apellidoPaterno}} {{entrenador.apellidoMaterno}}</h3>
+            <span class="member-id">ID: {{entrenador.idEntrenadores}}</span>
+          </div>
+          <button *ngIf="entrenador.idEntrenadores" 
+                  class="delete-btn"
+                  (click)="borrarEntrenador(entrenador.idEntrenadores)" title="Eliminar">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+
+        <!-- Imagen -->
+        <div class="image-section">
+          <div *ngIf="entrenador.imagen; else noImagen" class="image-container">
+            <img [src]="entrenador.imagen"
+                 class="member-image"
+                 [alt]="'Foto de ' + entrenador.nombreEntrenador">
+          </div>
+          <ng-template #noImagen>
+            <div class="no-image">
+              <i class="fas fa-user-tie"></i>
+              <p>Sin imagen</p>
+            </div>
+          </ng-template>
+        </div>
+
+        <!-- Información -->
+        <div class="card-body">
+          <div class="badges-section">
+            <span class="category-badge">{{entrenador.especialidad || 'Sin especialidad'}}</span>
+            <span class="gender-badge" 
+                  [class.male]="entrenador.sexo === 'Masculino'" 
+                  [class.female]="entrenador.sexo === 'Femenino'"
+                  [class.unknown]="!entrenador.sexo">
+              <i class="fas" 
+                 [class.fa-mars]="entrenador.sexo === 'Masculino'"
+                 [class.fa-venus]="entrenador.sexo === 'Femenino'"
+                 [class.fa-genderless]="!entrenador.sexo"></i>
+              {{entrenador.sexo || 'No especificado'}}
+            </span>
+          </div>
+
+          <div class="member-info">
+            <div class="info-item">
+              <i class="fas fa-home"></i>
+              <div>
+                <strong>Dirección:</strong> 
+                <span>{{entrenador.direccion || 'No especificada'}}</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-envelope"></i>
+              <div>
+                <strong>Correo:</strong> 
+                <span>{{entrenador.correo || 'No especificado'}}</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-phone"></i>
+              <div>
+                <strong>Teléfono:</strong> 
+                <span>{{entrenador.telefono || 'No especificado'}}</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-dumbbell"></i>
+              <div>
+                <strong>Disciplina:</strong> 
+                <span>{{ obtenerNombreDisciplina(entrenador.idDisciplinas) || 'No asignada' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <div class="birth-date">
+              <i class="fas fa-birthday-cake"></i>
+              <span>Nacimiento: {{entrenador.fechaNacimiento | date:'dd/MM/yyyy'}}</span>
+            </div>
+            
+            <button class="edit-btn" (click)="editarEntrenador(entrenador.idEntrenadores)">
+              <i class="fas fa-edit me-2"></i> Editar Entrenador
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,141 @@
+<div class="member-event-form-container">
+  <!-- Fondo con imagen -->
+  <div class="background-container">
+    <div class="background-image"></div>
+    <div class="background-overlay"></div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="container">
+    <!-- Botón de regreso -->
+    <div class="back-button-container">
+      <button type="button" class="back-btn" (click)="regresar()">
+        <i class="fas fa-home"></i>Menú
+      </button>
+    </div>
+    
+    <div class="form-preview-wrapper">
+      <!-- === Formulario === -->
+      <div class="form-section">
+        <div class="form-card">
+          <div class="form-header">
+            <h3>
+              <i class="fas {{ edit ? 'fa-edit' : 'fa-link' }} me-2"></i>
+              {{ edit ? 'Actualizar Registro' : 'Nuevo Registro' }}
+            </h3>
+            <p>Asocia un miembro con un evento deportivo</p>
+          </div>
+          <div class="form-body">
+            <form>
+              <!-- Información de la Asociación -->
+              <div class="form-section-group">
+                <h4 class="section-title">
+                  <i class="fas fa-users me-2"></i>Asociación Miembro-Evento
+                </h4>
+                
+                <!-- Selección de Miembro -->
+                <div class="form-field full-width">
+                  <label class="field-label">Seleccione un Miembro</label>
+                  <div class="input-group">
+                    <span class="input-icon"><i class="fas fa-user"></i></span>
+                    <select class="input-field"
+                            [(ngModel)]="miembroEvento.Miembros_idMiembros"
+                            name="Miembros_idMiembros">
+                      <option value="" disabled selected>Selecciona un miembro</option>
+                      <option *ngFor="let m of miembros" [value]="m.idMiembros">
+                        {{ m.nombreMiembros }} {{ m.apellidoPaterno }} {{ m.apellidoMaterno }}
+                      </option>
+                    </select>
+                  </div>
+                  <small class="error-message" *ngIf="errores['Miembros_idMiembros']">
+                    <i class="fas fa-exclamation-circle me-1"></i>{{ errores['Miembros_idMiembros'] }}
+                  </small>
+                </div>
+
+                <!-- Selección de Evento Deportivo -->
+                <div class="form-field full-width">
+                  <label class="field-label">Seleccione un Evento Deportivo</label>
+                  <div class="input-group">
+                    <span class="input-icon"><i class="fas fa-calendar-alt"></i></span>
+                    <select class="input-field"
+                            [(ngModel)]="miembroEvento.EventoDeportivo_idEventoDeportivo"
+                            name="EventoDeportivo_idEventoDeportivo">
+                      <option value="" disabled selected>Selecciona un evento</option>
+                      <option *ngFor="let e of eventos" [value]="e.idEventoDeportivo">
+                        {{ e.nombreEvento }}
+                      </option>
+                    </select>
+                  </div>
+                  <small class="error-message" *ngIf="errores['EventoDeportivo_idEventoDeportivo']">
+                    <i class="fas fa-exclamation-circle me-1"></i>{{ errores['EventoDeportivo_idEventoDeportivo'] }}
+                  </small>
+                </div>
+              </div>
+
+              <!-- Botones -->
+              <div class="button-section">
+                <button type="button" class="cancel-btn" (click)="cancelar()">
+                  <i class="fas fa-times me-2"></i>Cancelar
+                </button>
+
+                <button type="button" class="submit-btn"
+                        (click)="edit ? updateMiembroEvento() : addMiembroEvento()">
+                  <i class="fas {{ edit ? 'fa-sync-alt' : 'fa-save' }} me-2"></i>
+                  {{ edit ? 'Actualizar Registro' : 'Crear Registro' }}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- === Vista previa === -->
+      <div class="preview-section">
+        <div class="preview-card">
+          <div class="preview-header">
+            <h4><i class="fas fa-eye me-2"></i>Vista Previa</h4>
+          </div>
+          <div class="preview-body">
+            <div class="preview-content">
+              <div class="preview-image-container">
+                <i class="fas fa-user-friends preview-icon-large"></i>
+              </div>
+              <h4 class="preview-title" *ngIf="miembros.length && eventos.length">
+                {{ getNombreMiembro(miembroEvento.Miembros_idMiembros) || 'Miembro' }} - 
+                {{ getNombreEvento(miembroEvento.EventoDeportivo_idEventoDeportivo) || 'Evento' }}
+              </h4>
+              <span class="category-badge">Asociación Activa</span>
+            </div>
+            
+            <div class="preview-info">
+              <div class="info-item">
+                <i class="fas fa-user preview-icon"></i>
+                <div>
+                  <strong>Miembro:</strong> {{ getNombreMiembro(miembroEvento.Miembros_idMiembros) || 'No seleccionado' }}
+                </div>
+              </div>
+              <div class="info-item">
+                <i class="fas fa-calendar-alt preview-icon"></i>
+                <div>
+                  <strong>Evento Deportivo:</strong> {{ getNombreEvento(miembroEvento.EventoDeportivo_idEventoDeportivo) || 'No seleccionado' }}
+                </div>
+              </div>
+              <div class="info-item">
+                <i class="fas fa-id-card preview-icon"></i>
+                <div>
+                  <strong>ID Miembro:</strong> {{ miembroEvento.Miembros_idMiembros || 'No seleccionado' }}
+                </div>
+              </div>
+              <div class="info-item">
+                <i class="fas fa-calendar-check preview-icon"></i>
+                <div>
+                  <strong>ID Evento:</strong> {{ miembroEvento.EventoDeportivo_idEventoDeportivo || 'No seleccionado' }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

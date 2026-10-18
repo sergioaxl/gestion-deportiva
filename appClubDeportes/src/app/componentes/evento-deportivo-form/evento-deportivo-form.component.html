@@ -1,0 +1,172 @@
+<div class="event-form-container">
+  <!-- Fondo con imagen -->
+  <div class="background-container">
+    <div class="background-image"></div>
+    <div class="background-overlay"></div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="container">
+    <!-- Botón de regreso -->
+    <div class="back-button-container">
+      <button type="button" class="back-btn" (click)="regresar()">
+        <i class="fas fa-home"></i>Menú
+      </button>
+    </div>
+    
+    <div class="form-preview-wrapper">
+      <!-- === Formulario === -->
+      <div class="form-section">
+        <div class="form-card">
+          <div class="form-header">
+            <h3>
+              <i class="fas {{ edit ? 'fa-edit' : 'fa-calendar-plus' }} me-2"></i>
+              {{ edit ? 'Actualizar Evento' : 'Nuevo Evento' }}
+            </h3>
+            <p>Completa la información del evento deportivo</p>
+          </div>
+          <div class="form-body">
+            <form #eventoForm="ngForm" (ngSubmit)="guardarEvento()">
+              
+              <!-- Información del Evento -->
+              <div class="form-section-group">
+                <h4 class="section-title">
+                  <i class="fas fa-info-circle me-2"></i>Información del Evento
+                </h4>
+                
+                <!-- Nombre del evento -->
+                <div class="form-field full-width">
+                  <label class="field-label">Nombre del Evento</label>
+                  <div class="input-group">
+                    <span class="input-icon"><i class="fas fa-tag"></i></span>
+                    <input type="text" name="nombreEvento" [(ngModel)]="evento.nombreEvento" 
+                      class="input-field text-uppercase" placeholder="Nombre del evento"
+                      (input)="evento.nombreEvento = ($any(evento.nombreEvento) || '').toUpperCase()">
+                  </div>
+                  <small class="error-message" *ngIf="errores['nombreEvento']">
+                    <i class="fas fa-exclamation-circle me-1"></i>{{ errores['nombreEvento'] }}
+                  </small>
+                </div>
+                
+                <div class="form-row">
+                  <!-- Fecha del evento -->
+                  <div class="form-field">
+                    <label class="field-label">Fecha del Evento</label>
+                    <div class="input-group">
+                      <span class="input-icon"><i class="fas fa-calendar-day"></i></span>
+                      <input type="date" name="fechaEvento" [(ngModel)]="evento.fechaEvento" 
+                        class="input-field">
+                    </div>
+                    <small class="error-message" *ngIf="errores['fechaEvento']">
+                      <i class="fas fa-exclamation-circle me-1"></i>{{ errores['fechaEvento'] }}
+                    </small>
+                  </div>
+
+                  <!-- Hora del evento -->
+                  <div class="form-field">
+                    <label class="field-label">Hora del Evento</label>
+                    <div class="input-group">
+                      <span class="input-icon"><i class="fas fa-clock"></i></span>
+                      <input type="time" name="horaEvento" [(ngModel)]="evento.horaEvento" 
+                        class="input-field">
+                    </div>
+                    <small class="error-message" *ngIf="errores['horaEvento']">
+                      <i class="fas fa-exclamation-circle me-1"></i>{{ errores['horaEvento'] }}
+                    </small>
+                  </div>
+                </div>
+                
+                <!-- Lugar del evento -->
+                <div class="form-field full-width">
+                  <label class="field-label">Lugar del Evento</label>
+                  <div class="input-group">
+                    <span class="input-icon"><i class="fas fa-map-marker-alt"></i></span>
+                    <input type="text" name="lugar" [(ngModel)]="evento.lugar" 
+                      class="input-field text-uppercase" placeholder="Lugar del evento"
+                      (input)="evento.lugar = ($any(evento.lugar) || '').toUpperCase()">
+                  </div>
+                  <small class="error-message" *ngIf="errores['lugar']">
+                    <i class="fas fa-exclamation-circle me-1"></i>{{ errores['lugar'] }}
+                  </small>
+                </div>
+                
+                <!-- Descripción -->
+                <div class="form-field full-width">
+                  <label class="field-label">Descripción del Evento</label>
+                  <div class="input-group">
+                    <span class="input-icon"><i class="fas fa-file-alt"></i></span>
+                    <textarea name="descripcion" [(ngModel)]="evento.descripcion" 
+                      class="input-field text-uppercase" placeholder="Descripción del evento" rows="3"
+                      (input)="evento.descripcion = ($any(evento.descripcion) || '').toUpperCase()"></textarea>
+                  </div>
+                  <small class="error-message" *ngIf="errores['descripcion']">
+                    <i class="fas fa-exclamation-circle me-1"></i>{{ errores['descripcion'] }}
+                  </small>
+                </div>
+              </div>
+
+              <!-- Botones -->
+              <div class="button-section">
+                <button type="button" class="cancel-btn" (click)="cancelar()">
+                  <i class="fas fa-times me-2"></i>Cancelar
+                </button>
+
+                <button type="submit" class="submit-btn">
+                  <i class="fas {{ edit ? 'fa-sync-alt' : 'fa-save' }} me-2"></i>
+                  {{ edit ? 'Actualizar Evento' : 'Crear Evento' }}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- === Vista previa === -->
+      <div class="preview-section">
+        <div class="preview-card">
+          <div class="preview-header">
+            <h4><i class="fas fa-eye me-2"></i>Vista Previa</h4>
+          </div>
+          <div class="preview-body">
+            <div class="preview-content">
+              <div class="preview-image-container">
+                <i class="fas fa-calendar-alt preview-icon-large"></i>
+              </div>
+              <h4 class="preview-title">
+                {{ evento.nombreEvento || 'Nombre del Evento' }}
+              </h4>
+              <span class="category-badge">Evento Deportivo</span>
+            </div>
+            
+            <div class="preview-info">
+              <div class="info-item">
+                <i class="fas fa-calendar-day preview-icon"></i>
+                <div>
+                  <strong>Fecha:</strong> {{ (evento.fechaEvento | date:'dd/MM/yyyy') || 'No especificada' }}
+                </div>
+              </div>
+              <div class="info-item">
+                <i class="fas fa-clock preview-icon"></i>
+                <div>
+                  <strong>Hora:</strong> {{ evento.horaEvento || 'No especificada' }}
+                </div>
+              </div>
+              <div class="info-item">
+                <i class="fas fa-map-marker-alt preview-icon"></i>
+                <div>
+                  <strong>Lugar:</strong> {{ evento.lugar || 'Sin lugar definido' }}
+                </div>
+              </div>
+              <div class="info-item">
+                <i class="fas fa-file-alt preview-icon"></i>
+                <div>
+                  <strong>Descripción:</strong> {{ evento.descripcion || 'Sin descripción' }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

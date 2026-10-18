@@ -1,0 +1,122 @@
+<div class="inscriptions-list-container">
+  <!-- Fondo con imagen -->
+  <div class="background-container">
+    <div class="background-image"></div>
+    <div class="background-overlay"></div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="container">
+    <!-- Header -->
+    <div class="page-header">
+      <h2>
+        <i class="fas fa-clipboard-list me-2"></i> Inscripciones del Club
+      </h2>
+      <p>Gestiona y visualiza todas las inscripciones registradas</p>
+    </div>
+
+    <!-- === Búsqueda de inscripciones === -->
+    <div class="search-container">
+      <div class="search-box">
+        <div class="input-group">
+          <span class="input-icon"><i class="fas fa-search"></i></span>
+          <input type="text" class="search-input"
+                 placeholder="Buscar inscripción por miembro, disciplina o ID..."
+                 [(ngModel)]="terminoBusqueda" (input)="filtrarInscripciones()">
+        </div>
+      </div>
+    </div>
+
+    <!-- === Mensaje si no hay resultados === -->
+    <div *ngIf="inscripcionesFiltradas.length === 0 && terminoBusqueda"
+         class="no-results">
+      <i class="fas fa-clipboard-times"></i>
+      <p>No se encontró ninguna inscripción</p>
+      <small>Intenta con otros términos de búsqueda</small>
+    </div>
+    <div class="back-button-container">
+      <a href="/menu" class="back-btn">
+        <i class="fas fa-home"></i>Menú
+      </a>
+    </div>
+
+    <!-- === Grid de inscripciones === -->
+    <div class="members-grid">
+      <div class="member-card" *ngFor="let ins of inscripcionesFiltradas">
+        <!-- Header -->
+        <div class="card-header">
+          <div class="member-name">
+            <h3>Inscripción #{{ins.idInscripciones}}</h3>
+            <span class="member-id">ID: {{ins.idInscripciones}}</span>
+          </div>
+          <button *ngIf="ins.idInscripciones" 
+                  class="delete-btn"
+                  (click)="borrarInscripcion(ins.idInscripciones)" title="Eliminar">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+
+        <!-- Sección de información (sin imagen) -->
+        <div class="image-section">
+          <div class="no-image">
+            <i class="fas fa-clipboard-check"></i>
+            <p>Detalles de Inscripción</p>
+          </div>
+        </div>
+
+        <!-- Información -->
+        <div class="card-body">
+          <div class="badges-section">
+            <span class="category-badge">Activa</span>
+            <span class="gender-badge unknown">
+              <i class="fas fa-id-card"></i>
+              Registro #{{ins.idInscripciones}}
+            </span>
+          </div>
+
+          <div class="member-info">
+            <div class="info-item">
+              <i class="fas fa-user"></i>
+              <div>
+                <strong>Miembro:</strong> 
+                <span>{{ getNombreMiembro(ins.idMiembros) || 'No especificado' }}</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-dumbbell"></i>
+              <div>
+                <strong>Disciplina:</strong> 
+                <span>{{ getNombreDisciplina(ins.idDisciplinas) || 'No especificada' }}</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-calendar-alt"></i>
+              <div>
+                <strong>Fecha de Inscripción:</strong> 
+                <span>{{ ins.fechaInscripcion ? (ins.fechaInscripcion | date:'dd/MM/yyyy') : 'No especificada' }}</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-info-circle"></i>
+              <div>
+                <strong>Estado:</strong> 
+                <span>Activa</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <div class="birth-date">
+              <i class="fas fa-hashtag"></i>
+              <span>ID Inscripción: {{ins.idInscripciones}}</span>
+            </div>
+            
+            <a class="edit-btn" href="/inscripciones/actualizar/{{ins.idInscripciones}}">
+              <i class="fas fa-edit me-2"></i> Editar Inscripción
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

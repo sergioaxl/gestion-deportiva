@@ -1,0 +1,248 @@
+<div class="dashboard-container">
+  <!-- Fondo con imagen -->
+  <div class="background-container">
+    <div class="background-image"></div>
+    <div class="background-overlay"></div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="main-content">
+    <!-- Header con gradiente -->
+    <div class="dashboard-header">
+      <div class="header-content">
+        <div class="title-section">
+          <h1 class="main-title">
+            <i class="fas fa-trophy"></i>
+            Sistema de Gestión Deportiva
+          </h1>
+          <p class="subtitle">Administra disciplinas, miembros, eventos y más</p>
+        </div>
+        
+        <!-- Menú desplegable de usuario -->
+        <div class="user-menu">
+          <div class="user-trigger" (click)="toggleUserMenu()">
+            <div class="user-avatar">
+              <i class="fas fa-user-shield"></i>
+            </div>
+            <div class="user-details">
+              <span class="user-name">Admin</span>
+              <span class="user-role">Administrador</span>
+            </div>
+            <i class="fas fa-chevron-down menu-arrow" [class.rotated]="isMenuOpen"></i>
+          </div>
+          
+          <div class="user-dropdown" [class.active]="isMenuOpen">
+            <div class="dropdown-item" (click)="logout()">
+              <i class="fas fa-sign-out-alt"></i>
+              <span>Cerrar Sesión</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Acciones rápidas -->
+    <div class="quick-actions-section">
+      <div class="section-header">
+        <div class="section-icon">
+          <i class="fas fa-check"></i>
+        </div>
+        <h2>Acciones Rápidas</h2>
+      </div>
+      <div class="actions-grid">
+        <a href="/miembros/agregar" class="action-card">
+          <div class="action-icon">
+            <i class="fas fa-user-plus"></i>
+          </div>
+          <span class="action-text">Agregar Miembro</span>
+        </a>
+        <a href="/eventos/agregar" class="action-card">
+          <div class="action-icon">
+            <i class="fas fa-calendar-plus"></i>
+          </div>
+          <span class="action-text">Crear Evento</span>
+        </a>
+        <a href="/inscripciones/agregar" class="action-card">
+          <div class="action-icon">
+            <i class="fas fa-clipboard-check"></i>
+          </div>
+          <span class="action-text">Nueva Inscripción</span>
+        </a>
+        <a href="/disciplinas/agregar" class="action-card">
+          <div class="action-icon">
+            <i class="fas fa-running"></i>
+          </div>
+          <span class="action-text">Agregar Disciplina</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Menú de módulos -->
+    <div class="modules-section">
+      <div class="section-header">
+        <div class="section-icon">
+          <i class="fas fa-th-large"></i>
+        </div>
+        <h2>Módulos del Sistema</h2>
+      </div>
+      <div class="modules-grid">
+        <!-- Miembros -->
+        <div class="module-card">
+          <div class="module-header">
+            <div class="module-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <h3>Miembros</h3>
+          </div>
+          <div class="module-links">
+            <a href="/miembros" class="module-link">
+              <i class="fas fa-list"></i>
+              <span>Ver Lista</span>
+              <i class="fas fa-chevron-right link-arrow"></i>
+            </a>
+            <a href="/miembros/agregar" class="module-link">
+              <i class="fas fa-user-plus"></i>
+              <span>Agregar Nuevo</span>
+              <i class="fas fa-chevron-right link-arrow"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Disciplinas -->
+        <div class="module-card">
+          <div class="module-header">
+            <div class="module-icon">
+              <i class="fas fa-running"></i>
+            </div>
+            <h3>Disciplinas</h3>
+          </div>
+          <div class="module-links">
+            <a href="/disciplinas" class="module-link">
+              <i class="fas fa-list"></i>
+              <span>Ver Lista</span>
+              <i class="fas fa-chevron-right link-arrow"></i>
+            </a>
+            <a href="/disciplinas/agregar" class="module-link">
+              <i class="fas fa-plus-circle"></i>
+              <span>Agregar Nueva</span>
+              <i class="fas fa-chevron-right link-arrow"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Entrenadores -->
+        <div class="module-card">
+          <div class="module-header">
+            <div class="module-icon">
+              <i class="fas fa-user-tie"></i>
+            </div>
+            <h3>Entrenadores</h3>
+          </div>
+          <div class="module-links">
+            <a href="/entrenadores" class="module-link">
+              <i class="fas fa-list"></i>
+              <span>Ver Lista</span>
+              <i class="fas fa-chevron-right link-arrow"></i>
+            </a>
+            <a href="/entrenadores/agregar" class="module-link">
+              <i class="fas fa-user-plus"></i>
+              <span>Agregar Nuevo</span>
+              <i class="fas fa-chevron-right link-arrow"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Eventos -->
+        <div class="module-card">
+          <div class="module-header">
+            <div class="module-icon">
+              <i class="fas fa-trophy"></i>
+            </div>
+            <h3>Eventos</h3>
+          </div>
+          <div class="module-links">
+            <a href="/eventos" class="module-link">
+              <i class="fas fa-list"></i>
+              <span>Ver Lista</span>
+              <i class="fas fa-chevron-right link-arrow"></i>
+            </a>
+            <a href="/eventos/agregar" class="module-link">
+              <i class="fas fa-plus-circle"></i>
+              <span>Agregar Nuevo</span>
+              <i class="fas fa-chevron-right link-arrow"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Inscripciones -->
+        <div class="module-card">
+          <div class="module-header">
+            <div class="module-icon">
+              <i class="fas fa-clipboard-list"></i>
+            </div>
+            <h3>Inscripciones</h3>
+          </div>
+          <div class="module-links">
+            <a href="/inscripciones" class="module-link">
+              <i class="fas fa-list"></i>
+              <span>Ver Lista</span>
+              <i class="fas fa-chevron-right link-arrow"></i>
+            </a>
+            <a href="/inscripciones/agregar" class="module-link">
+              <i class="fas fa-plus-circle"></i>
+              <span>Agregar Nueva</span>
+              <i class="fas fa-chevron-right link-arrow"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Miembros en Eventos -->
+        <div class="module-card">
+          <div class="module-header">
+            <div class="module-icon">
+              <i class="fas fa-user-check"></i>
+            </div>
+            <h3>Miembros en Eventos</h3>
+          </div>
+          <div class="module-links">
+            <a href="/miembrosEventosDeportivo" class="module-link">
+              <i class="fas fa-list"></i>
+              <span>Ver Lista</span>
+              <i class="fas fa-chevron-right link-arrow"></i>
+            </a>
+            <a href="/miembrosEventosDeportivo/agregar" class="module-link">
+              <i class="fas fa-link"></i>
+              <span>Agregar Miembro</span>
+              <i class="fas fa-chevron-right link-arrow"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Usuarios -->
+        <div class="module-card">
+          <div class="module-header">
+            <div class="module-icon">
+              <i class="fas fa-user-cog"></i>
+            </div>
+            <h3>Usuarios</h3>
+          </div>
+          <div class="module-links">
+            <a href="/usuarios" class="module-link">
+              <i class="fas fa-list"></i>
+              <span>Ver Lista</span>
+              <i class="fas fa-chevron-right link-arrow"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+      <div class="footer-content">
+        <p class="footer-text">Gestión Deportiva &copy; 2024 - Todos los derechos reservados</p>
+        <p class="footer-subtext">Desarrollado para la comunidad deportiva</p>
+      </div>
+    </footer>
+  </div>
+</div>

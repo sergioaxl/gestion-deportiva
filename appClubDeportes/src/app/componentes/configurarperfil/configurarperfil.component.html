@@ -1,0 +1,313 @@
+<div class="member-form-container">
+  <!-- Fondo con imagen -->
+  <div class="background-container">
+    <div class="background-image"></div>
+    <div class="background-overlay"></div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="container">
+    <!-- Botón de regreso -->
+    <div class="back-button-container">
+      <button type="button" class="back-btn" (click)="RegresarLista()">
+        <i class="fas fa-home"></i>Menú
+      </button>
+    </div>
+    
+    <div class="form-preview-wrapper">
+      <!-- === Formulario === -->
+      <div class="form-section">
+        <div class="form-card">
+          <div class="form-header">
+            <h3>
+              <i class="fas {{ edit ? 'fa-user-edit' : 'fa-user-plus' }} me-2"></i>
+              {{ edit ? 'Actualizar Miembro' : 'Agregar Miembro' }}
+            </h3>
+            <p>Completa la información del miembro</p>
+          </div>
+          <div class="form-body">
+            <form>
+              <!-- Información Personal -->
+              <div class="form-section-group">
+                <h4 class="section-title">
+                  <i class="fas fa-user-circle me-2"></i>Información Personal
+                </h4>
+                
+                <div class="form-row">
+                  <!-- ID -->
+                  <div class="form-field">
+                    <label class="field-label">ID del Miembro</label>
+                    <div class="input-group">
+                      <span class="input-icon"><i class="fas fa-id-card"></i></span>
+                      <input type="text" name="idMiembros" [(ngModel)]="miembro.idMiembros"
+                        placeholder="Ingresa el ID" class="input-field text-uppercase"
+                        (input)="miembro.idMiembros = ($any(miembro.idMiembros) || '').toUpperCase()"
+                        [readonly]="edit" [class.bg-light]="edit" [class.text-muted]="edit">
+                    </div>
+                    <small class="error-message" *ngIf="errores['idMiembros']">
+                      <i class="fas fa-exclamation-circle me-1"></i>{{ errores['idMiembros'] }}
+                    </small>
+                  </div>
+
+                  <!-- Nombre -->
+                  <div class="form-field">
+                    <label class="field-label">Nombre</label>
+                    <div class="input-group">
+                      <span class="input-icon"><i class="fas fa-user"></i></span>
+                      <input type="text" name="nombreMiembros" [(ngModel)]="miembro.nombreMiembros"
+                        placeholder="Nombre del miembro" class="input-field text-uppercase"
+                        (input)="miembro.nombreMiembros = ($any(miembro.nombreMiembros) || '').toUpperCase()">
+                    </div>
+                    <small class="error-message" *ngIf="errores['nombreMiembros']">
+                      <i class="fas fa-exclamation-circle me-1"></i>{{ errores['nombreMiembros'] }}
+                    </small>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <!-- Apellido Paterno -->
+                  <div class="form-field">
+                    <label class="field-label">Apellido Paterno</label>
+                    <div class="input-group">
+                      <span class="input-icon"><i class="fas fa-user-tag"></i></span>
+                      <input type="text" name="apellidoPaterno" [(ngModel)]="miembro.apellidoPaterno"
+                        placeholder="Apellido paterno" class="input-field text-uppercase"
+                        (input)="miembro.apellidoPaterno = ($any(miembro.apellidoPaterno) || '').toUpperCase()">
+                    </div>
+                    <small class="error-message" *ngIf="errores['apellidoPaterno']">
+                      <i class="fas fa-exclamation-circle me-1"></i>{{ errores['apellidoPaterno'] }}
+                    </small>
+                  </div>
+
+                  <!-- Apellido Materno -->
+                  <div class="form-field">
+                    <label class="field-label">Apellido Materno</label>
+                    <div class="input-group">
+                      <span class="input-icon"><i class="fas fa-user-tag"></i></span>
+                      <input type="text" name="apellidoMaterno" [(ngModel)]="miembro.apellidoMaterno"
+                        placeholder="Apellido materno" class="input-field text-uppercase"
+                        (input)="miembro.apellidoMaterno = ($any(miembro.apellidoMaterno) || '').toUpperCase()">
+                    </div>
+                    <small class="error-message" *ngIf="errores['apellidoMaterno']">
+                      <i class="fas fa-exclamation-circle me-1"></i>{{ errores['apellidoMaterno'] }}
+                    </small>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <!-- Sexo -->
+                  <div class="form-field">
+                    <label class="field-label">Sexo</label>
+                    <div class="input-group">
+                      <span class="input-icon"><i class="fas fa-venus-mars"></i></span>
+                      <select name="sexo" [(ngModel)]="miembro.sexo" class="input-field">
+                        <option value="" disabled selected>Selecciona el sexo</option>
+                        <option value="MASCULINO">MASCULINO</option>
+                        <option value="FEMENINO">FEMENINO</option>
+                        <option value="OTRO">OTRO</option>
+                      </select>
+                    </div>
+                    <small class="error-message" *ngIf="errores['sexo']">
+                      <i class="fas fa-exclamation-circle me-1"></i>{{ errores['sexo'] }}
+                    </small>
+                  </div>
+
+                  <!-- Fecha de nacimiento -->
+                  <div class="form-field">
+                    <label class="field-label">Fecha de Nacimiento</label>
+                    <div class="input-group">
+                      <span class="input-icon"><i class="fas fa-calendar-alt"></i></span>
+                      <input type="date" name="fechaNacimiento" [(ngModel)]="miembro.fechaNacimiento"
+                        class="input-field" max="2007-12-31">
+                    </div>
+                    <small class="error-message" *ngIf="errores['fechaNacimiento']">
+                      <i class="fas fa-exclamation-circle me-1"></i>{{ errores['fechaNacimiento'] }}
+                    </small>
+                    <small class="help-text">
+                      <i class="fas fa-info-circle me-1"></i>Solo se permiten miembros mayores de 18 años.
+                    </small>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Información de Contacto -->
+              <div class="form-section-group">
+                <h4 class="section-title">
+                  <i class="fas fa-address-card me-2"></i>Información de Contacto
+                </h4>
+                
+                <!-- Dirección -->
+                <div class="form-field full-width">
+                  <label class="field-label">Dirección</label>
+                  <div class="input-group">
+                    <span class="input-icon"><i class="fas fa-home"></i></span>
+                    <input type="text" name="direccion" [(ngModel)]="miembro.direccion"
+                      placeholder="Dirección completa" class="input-field text-uppercase"
+                      (input)="miembro.direccion = ($any(miembro.direccion) || '').toUpperCase()">
+                  </div>
+                  <small class="error-message" *ngIf="errores['direccion']">
+                    <i class="fas fa-exclamation-circle me-1"></i>{{ errores['direccion'] }}
+                  </small>
+                </div>
+
+                <div class="form-row">
+                  <!-- Correo -->
+                  <div class="form-field">
+                    <label class="field-label">Correo Electrónico</label>
+                    <div class="input-group">
+                      <span class="input-icon"><i class="fas fa-envelope"></i></span>
+                      <input type="email" name="correoMiembro" [(ngModel)]="miembro.correoMiembro"
+                        (blur)="onCorreoChange()"
+                        placeholder="correo@ejemplo.com" class="input-field">
+                    </div>
+                    <small class="error-message" *ngIf="errores['correoMiembro']">
+                      <i class="fas fa-exclamation-circle me-1"></i>{{ errores['correoMiembro'] }}
+                    </small>
+                  </div>
+
+                  <!-- Teléfono -->
+                  <div class="form-field">
+                    <label class="field-label">Teléfono</label>
+                    <div class="input-group">
+                      <span class="input-icon"><i class="fas fa-phone"></i></span>
+                      <input type="number" name="telefono" [(ngModel)]="miembro.telefono"
+                        placeholder="Número de teléfono" class="input-field" min="0">
+                    </div>
+                    <small class="error-message" *ngIf="errores['telefono']">
+                      <i class="fas fa-exclamation-circle me-1"></i>{{ errores['telefono'] }}
+                    </small>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Información Deportiva -->
+              <div class="form-section-group">
+                <h4 class="section-title">
+                  <i class="fas fa-trophy me-2"></i>Información Deportiva
+                </h4>
+                
+                <!-- Categoría -->
+                <div class="form-field">
+                  <label class="field-label">Categoría</label>
+                  <div class="input-group">
+                    <span class="input-icon"><i class="fas fa-tag"></i></span>
+                    <select name="categoria" [(ngModel)]="miembro.categoria" class="input-field">
+                      <option value="" disabled selected>Selecciona la categoría</option>
+                      <option value="PRINCIPIANTE">PRINCIPIANTE</option>
+                      <option value="INTERMEDIO">INTERMEDIO</option>
+                      <option value="PROFESIONAL">PROFESIONAL</option>
+                    </select>
+                  </div>
+                  <small class="error-message" *ngIf="errores['categoria']">
+                    <i class="fas fa-exclamation-circle me-1"></i>{{ errores['categoria'] }}
+                  </small>
+                </div>
+              </div>
+
+              <!-- Imagen del Miembro -->
+              <div class="form-section-group">
+                <h4 class="section-title">
+                  <i class="fas fa-camera me-2"></i>Imagen del Miembro
+                </h4>
+                
+                <!-- Opción 1: Escribir o pegar URL -->
+                <div class="form-field full-width">
+                  <label class="field-label">URL de la Imagen</label>
+                  <div class="input-group">
+                    <span class="input-icon"><i class="fas fa-link"></i></span>
+                    <input type="url" name="imagen" [(ngModel)]="miembro.imagen"
+                      placeholder="https://ejemplo.com/imagen.jpg" class="input-field">
+                  </div>
+                </div>
+
+                <!-- Opción 2: Seleccionar archivo local -->
+                <div class="form-field full-width">
+                  <label class="field-label">Subir Imagen</label>
+                  <div class="input-group">
+                    <span class="input-icon"><i class="fas fa-upload"></i></span>
+                    <input type="file" accept="image/*" class="input-field" (change)="onFileSelected($event)">
+                  </div>
+                </div>
+
+                <small class="help-text full-width">
+                  <i class="fas fa-info-circle me-1"></i>Puedes subir una imagen o pegar una URL (se tomará una de las dos).
+                </small>
+
+                <small class="error-message full-width" *ngIf="errores['imagen']">
+                  <i class="fas fa-exclamation-circle me-1"></i>{{ errores['imagen'] }}
+                </small>
+              </div>
+
+              <!-- Botones -->
+              <div class="button-section">
+                <button type="button" class="cancel-btn" (click)="Cancelar()">
+                  <i class="fas fa-arrow-left me-2"></i>Cancelar
+                </button>
+
+                <button type="button" class="submit-btn"
+                  (click)="edit ? actualizaMiembro() : addMiembro()">
+                  <i class="fas {{ edit ? 'fa-sync-alt' : 'fa-save' }} me-2"></i>
+                  {{ edit ? 'Actualizar' : 'Agregar' }}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- === Vista previa === -->
+      <div class="preview-section">
+        <div class="preview-card">
+          <div class="preview-header">
+            <h4><i class="fas fa-eye me-2"></i>Vista Previa</h4>
+          </div>
+          <div class="preview-body">
+            <div class="preview-content">
+              <div class="preview-image-container">
+                <img [src]="miembro.imagen || 'https://via.placeholder.com/500x500?text=Sin+imagen'"
+                  class="preview-image">
+              </div>
+              <h4 class="preview-title">
+                {{ (miembro.idMiembros ? miembro.idMiembros + ' - ' : '') + (miembro.nombreMiembros || 'Nombre del Miembro') + ' ' + (miembro.apellidoPaterno || '') + ' ' + (miembro.apellidoMaterno || '') }}
+              </h4>
+              <span class="category-badge">{{ miembro.categoria || 'Sin categoría' }}</span>
+            </div>
+            
+            <div class="preview-info">
+              <div class="info-item">
+                <i class="fas fa-venus-mars preview-icon"></i>
+                <div>
+                  <strong>Sexo:</strong> {{ miembro.sexo || 'No especificado' }}
+                </div>
+              </div>
+              <div class="info-item">
+                <i class="fas fa-birthday-cake preview-icon"></i>
+                <div>
+                  <strong>Fecha de Nacimiento:</strong> {{ miembro.fechaNacimiento || 'No especificada' }}
+                </div>
+              </div>
+              <div class="info-item">
+                <i class="fas fa-home preview-icon"></i>
+                <div>
+                  <strong>Dirección:</strong> {{ miembro.direccion || 'No especificada' }}
+                </div>
+              </div>
+              <div class="info-item">
+                <i class="fas fa-envelope preview-icon"></i>
+                <div>
+                  <strong>Correo:</strong> {{ miembro.correoMiembro || 'No especificado' }}
+                </div>
+              </div>
+              <div class="info-item">
+                <i class="fas fa-phone preview-icon"></i>
+                <div>
+                  <strong>Teléfono:</strong> {{ miembro.telefono || 'No especificado' }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

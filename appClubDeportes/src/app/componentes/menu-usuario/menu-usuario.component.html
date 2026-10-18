@@ -1,0 +1,317 @@
+<div class="user-panel-container">
+  <!-- Navbar Superior -->
+  <nav class="user-navbar">
+    <div class="navbar-content">
+      <div class="navbar-brand">
+        <i class="fas fa-running"></i>
+        <span>Gestión Deportiva</span>
+      </div>
+      
+      <div class="user-profile">
+        <div class="user-dropdown">
+          <div class="user-info-toggle">
+            <div class="user-avatar">{{ nombreUsuario?.charAt(0) || 'U' }}</div>
+            <span class="user-name">{{ nombreUsuario || 'Usuario' }}</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" (click)="navigateToProfileUpdate()">
+              <i class="fas fa-user"></i>
+              <span>Mi Perfil</span>
+            </a>
+            <a class="dropdown-item" href="/recuperar">
+              <i class="fas fa-cog"></i>
+              <span>Recuperar Contraseña</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" (click)="logout()">
+              <i class="fas fa-sign-out-alt"></i>
+              <span>Cerrar Sesión</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Contenido Principal -->
+  <div class="main-layout">
+    <!-- Sidebar Izquierdo Fijo -->
+    <aside class="user-sidebar">
+      <div class="sidebar-header">
+        <div class="user-profile-card">
+          <div class="user-avatar-large">{{ nombreUsuario?.charAt(0) || 'U' }}</div>
+          <div class="user-details">
+            <h3>{{ nombreUsuario }}</h3>
+            <p>Miembro ID: {{ idMiembro }}</p>
+          </div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-item" [class.active]="menuActivo === 'dashboard'" (click)="menuActivo='dashboard'">
+          <div class="nav-icon">
+            <i class="fas fa-tachometer-alt"></i>
+          </div>
+          <span class="nav-label">Dashboard</span>
+        </div>
+        
+        <div class="nav-item" [class.active]="menuActivo === 'disciplinas'" (click)="menuActivo='disciplinas'">
+          <div class="nav-icon">
+            <i class="fas fa-running"></i>
+          </div>
+          <span class="nav-label">Mis Disciplinas</span>
+        </div>
+        
+        <div class="nav-item" [class.active]="menuActivo === 'eventos'" (click)="menuActivo='eventos'">
+          <div class="nav-icon">
+            <i class="fas fa-calendar-alt"></i>
+          </div>
+          <span class="nav-label">Mis Eventos</span>
+        </div>
+        
+        <div class="nav-item" [class.active]="menuActivo === 'inscripciones'" (click)="navigateToProfileUpdate()">
+          <div class="nav-icon">
+            <i class="fas fa-clipboard-list"></i>
+          </div>
+          <span class="nav-label">Configuración de Perfil</span>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="logout-btn" (click)="logout()">
+          <div class="nav-icon">
+            <i class="fas fa-sign-out-alt"></i>
+          </div>
+          <span class="nav-label">Cerrar Sesión</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Contenido Principal con Scroll -->
+    <main class="content-area">
+      <div class="content-background"></div>
+      <div class="content-scrollable">
+        
+        <!-- Dashboard -->
+        <section *ngIf="menuActivo === 'dashboard'" class="dashboard-section">
+          <div class="section-header">
+            <h1>¡Bienvenido, {{ nombreUsuario }}!</h1>
+            <p>Gestiona tus actividades deportivas y mantente al día con los eventos</p>
+          </div>
+
+          <!-- Estadísticas -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-dumbbell"></i>
+              </div>
+              <div class="stat-content">
+                <h3>{{ disciplinasInscritas.length }}</h3>
+                <p>Disciplinas Activas</p>
+              </div>
+            </div>
+            
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-calendar-check"></i>
+              </div>
+              <div class="stat-content">
+                <h3>{{ eventosAsistidos.length }}</h3>
+                <p>Mis Eventos</p>
+              </div>
+            </div>
+            
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-trophy"></i>
+              </div>
+              <div class="stat-content">
+                <h3>{{ getDisciplinasDisponibles().length }}</h3>
+                <p>Disciplinas Disponibles</p>
+              </div>
+            </div>
+            
+            <div class="stat-card">
+              <div class="stat-icon">
+                <i class="fas fa-star"></i>
+              </div>
+              <div class="stat-content">
+                <h3>{{ getEventosDisponibles().length }}</h3>
+                <p>Eventos Disponibles</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Disciplinas Disponibles (NO INSCRITAS) -->
+          <div class="content-section">
+            <div class="section-title">
+              <h2><i class="fas fa-dumbbell"></i> Disciplinas Disponibles para Inscribirse</h2>
+              <p>Explora y únete a nuevas disciplinas deportivas</p>
+            </div>
+
+            <div *ngIf="getDisciplinasDisponibles().length > 0; else noDisciplinasDisponibles" class="cards-grid">
+              <div class="content-card" *ngFor="let disc of getDisciplinasDisponibles()">
+                <div class="card-image">
+                  <img [src]="disc.imagen" alt="{{ disc.nombreDisciplina }}">
+                  <div class="card-overlay">
+                    <button class="action-btn primary" (click)="inscribirseDisciplina(disc.idDisciplinas)">
+                      <i class="fas fa-plus"></i> Inscribirme
+                    </button>
+                  </div>
+                </div>
+                <div class="card-content">
+                  <h4>{{ disc.nombreDisciplina }}</h4>
+                  <p class="card-meta">Nivel: {{ disc.nivel }}</p>
+                  <p class="card-description">Únete a esta disciplina y mejora tus habilidades deportivas</p>
+                </div>
+              </div>
+            </div>
+
+            <ng-template #noDisciplinasDisponibles>
+              <div class="empty-state">
+                <i class="fas fa-dumbbell"></i>
+                <h3>No hay disciplinas disponibles</h3>
+                <p>Ya estás inscrito en todas las disciplinas disponibles o no hay disciplinas en este momento.</p>
+              </div>
+            </ng-template>
+          </div>
+
+          <!-- Eventos Disponibles (NO INSCRITOS) -->
+<div class="content-section">
+  <div class="section-title">
+    <h2><i class="fas fa-calendar-plus"></i> Eventos Disponibles para Participar</h2>
+    <p>Participa en eventos deportivos emocionantes</p>
+  </div>
+
+  <div *ngIf="getEventosDisponibles().length > 0; else noEventosDisponibles" class="cards-grid">
+    <div class="content-card event-card" *ngFor="let ev of getEventosDisponibles()">
+      <div class="card-content">
+        <div class="event-header">
+          <h4>{{ ev.nombreEvento }}</h4>
+          <div class="event-date">
+            <i class="fas fa-calendar"></i>
+            <span>{{ ev.fechaEvento | date: 'longDate' }}</span>
+          </div>
+        </div>
+
+        <div class="event-details">
+          <div class="detail-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>{{ ev.lugar }}</span>
+          </div>
+          <div class="detail-item">
+            <i class="fas fa-clock"></i>
+            <span>{{ ev.horaEvento }}</span>
+          </div>
+          <p class="event-description">{{ ev.descripcion || 'Evento deportivo emocionante' }}</p>
+        </div>
+
+        <button
+          class="action-btn success"
+          (click)="inscribirseEvento(+ev.idEventoDeportivo)">
+          <i class="fas fa-check"></i> Participar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noEventosDisponibles>
+    <div class="empty-state">
+      <i class="fas fa-calendar-times"></i>
+      <h3>No hay eventos disponibles</h3>
+      <p>Ya estás inscrito en todos los eventos o no hay eventos programados en este momento.</p>
+    </div>
+  </ng-template>
+</div>
+        </section>
+
+        <!-- Mis Disciplinas (SOLO LAS INSCRITAS) -->
+        <section *ngIf="menuActivo === 'disciplinas'" class="content-section">
+          <div class="section-header">
+            <h1><i class="fas fa-dumbbell"></i> Mis Disciplinas</h1>
+            <p>Gestiona las disciplinas en las que estás inscrito</p>
+          </div>
+
+          <div *ngIf="disciplinasInscritas.length === 0" class="empty-state">
+            <i class="fas fa-running"></i>
+            <h3>No estás inscrito en ninguna disciplina</h3>
+            <p>Explora las disciplinas disponibles y únete para comenzar tu entrenamiento</p>
+            <button class="action-btn primary" (click)="menuActivo='dashboard'">
+              <i class="fas fa-search"></i> Ver Disciplinas Disponibles
+            </button>
+          </div>
+
+          <div *ngIf="disciplinasInscritas.length > 0" class="cards-grid">
+            <div class="content-card" *ngFor="let d of disciplinasInscritas">
+              <div class="card-image">
+                <img [src]="d.imagen" alt="{{ d.nombreDisciplina }}">
+                <div class="card-badge">
+                  <i class="fas fa-check"></i> Inscrito
+                </div>
+              </div>
+              <div class="card-content">
+                <h4>{{ d.nombreDisciplina }}</h4>
+                <p class="card-meta">Nivel: {{ d.nivel }}</p>
+                <div class="progress-container">
+                  <div class="progress-label">
+                    <span>Progreso</span>
+                    <span>65%</span>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-fill" style="width: 65%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Mis Eventos (SOLO LOS INSCRITOS) -->
+        <section *ngIf="menuActivo === 'eventos'" class="content-section">
+          <div class="section-header">
+            <h1><i class="fas fa-calendar-alt"></i> Mis Eventos</h1>
+            <p>Eventos deportivos en los que estás participando</p>
+          </div>
+
+          <div *ngIf="eventosAsistidos.length === 0" class="empty-state">
+            <i class="fas fa-calendar-times"></i>
+            <h3>No tienes eventos registrados</h3>
+            <p>Explora los eventos disponibles y únete para participar</p>
+            <button class="action-btn primary" (click)="menuActivo='dashboard'">
+              <i class="fas fa-search"></i> Ver Eventos Disponibles
+            </button>
+          </div>
+
+          <div *ngIf="eventosAsistidos.length > 0" class="events-timeline">
+            <div class="event-item" *ngFor="let e of eventosAsistidos">
+              <div class="event-date">
+                <div class="date-day">{{ e.fechaEvento | date: 'dd' }}</div>
+                <div class="date-month">{{ e.fechaEvento | date: 'MMM' }}</div>
+              </div>
+              <div class="event-content">
+                <h4>{{ e.nombreEvento }}</h4>
+                <div class="event-meta">
+                  <div class="meta-item">
+                    <i class="fas fa-clock"></i>
+                    <span>{{ e.horaEvento }}</span>
+                  </div>
+                  <div class="meta-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>{{ e.lugar }}</span>
+                  </div>
+                </div>
+                <p class="event-description">{{ e.descripcion || 'Evento deportivo emocionante' }}</p>
+                <div class="event-status">
+                  <span class="status-badge confirmed">
+                    <i class="fas fa-check-circle"></i> Confirmado
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</div>

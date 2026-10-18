@@ -1,0 +1,131 @@
+<div class="members-list-container">
+  <!-- Fondo con imagen -->
+  <div class="background-container">
+    <div class="background-image"></div>
+    <div class="background-overlay"></div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="container">
+    <!-- Header -->
+    <div class="page-header">
+      <h2>
+        <i class="fas fa-users me-2"></i> Miembros del Club Deportivo
+      </h2>
+      <p>Gestiona y visualiza todos los miembros registrados</p>
+    </div>
+
+    <!-- === Búsqueda de miembros === -->
+    <div class="search-container">
+      <div class="search-box">
+        <div class="input-group">
+          <span class="input-icon"><i class="fas fa-search"></i></span>
+          <input type="text" class="search-input"
+                 placeholder="Buscar miembro por nombre, apellido o categoría..."
+                 [(ngModel)]="terminoBusqueda" (input)="filtrarMiembros()">
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- === Mensaje si no hay resultados === -->
+    <div *ngIf="miembrosFiltrados.length === 0 && terminoBusqueda"
+         class="no-results">
+      <i class="fas fa-user-times"></i>
+      <p>No se encontró ningún miembro</p>
+      <small>Intenta con otros términos de búsqueda</small>
+    </div>
+
+    <div class="back-button-container">
+      <a href="/menu" class="back-btn">
+        <i class="fas fa-home"></i>Menú
+      </a>
+    </div>
+    
+
+    <!-- === Lista de miembros === -->
+    <div class="members-grid">
+      <div class="member-card" *ngFor="let miembro of miembrosFiltrados">
+        <!-- Header -->
+        <div class="card-header">
+          <div class="member-name">
+            <h3>{{miembro.nombreMiembros}} {{miembro.apellidoPaterno}} {{miembro.apellidoMaterno}}</h3>
+            <span class="member-id">ID: {{miembro.idMiembros}}</span>
+          </div>
+          <button *ngIf="miembro.idMiembros" 
+                  class="delete-btn"
+                  (click)="borrarMiembro(miembro.idMiembros)" title="Eliminar">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+
+        <!-- Imagen -->
+        <div class="image-section">
+          <div *ngIf="miembro.imagen; else noImagen" class="image-container">
+            <img [src]="miembro.imagen"
+                 class="member-image"
+                 [alt]="'Foto de ' + miembro.nombreMiembros">
+          </div>
+          <ng-template #noImagen>
+            <div class="no-image">
+              <i class="fas fa-user-circle"></i>
+              <p>Sin imagen</p>
+            </div>
+          </ng-template>
+        </div>
+
+        <!-- Información -->
+        <div class="card-body">
+          <div class="badges-section">
+            <span class="category-badge">{{miembro.categoria || 'Sin categoría'}}</span>
+            <span class="gender-badge" 
+                  [class.male]="miembro.sexo === 'Masculino'" 
+                  [class.female]="miembro.sexo === 'Femenino'"
+                  [class.unknown]="!miembro.sexo">
+              <i class="fas" 
+                 [class.fa-mars]="miembro.sexo === 'Masculino'"
+                 [class.fa-venus]="miembro.sexo === 'Femenino'"
+                 [class.fa-genderless]="!miembro.sexo"></i>
+              {{miembro.sexo || 'No especificado'}}
+            </span>
+          </div>
+
+          <div class="member-info">
+            <div class="info-item">
+              <i class="fas fa-home"></i>
+              <div>
+                <strong>Dirección:</strong> 
+                <span>{{miembro.direccion || 'No especificada'}}</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-envelope"></i>
+              <div>
+                <strong>Correo:</strong> 
+                <span>{{miembro.correoMiembro || 'No especificado'}}</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-phone"></i>
+              <div>
+                <strong>Teléfono:</strong> 
+                <span>{{miembro.telefono || 'No especificado'}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <div class="birth-date">
+              <i class="fas fa-birthday-cake"></i>
+              <span>Nacimiento: {{miembro.fechaNacimiento | date:'dd/MM/yyyy'}}</span>
+            </div>
+            
+            <a class="edit-btn" href="/miembros/actualizar/{{miembro.idMiembros}}">
+              <i class="fas fa-edit me-2"></i> Editar Miembro
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

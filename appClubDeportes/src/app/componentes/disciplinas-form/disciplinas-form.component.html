@@ -1,0 +1,280 @@
+<div class="member-form-container">
+  <!-- Fondo con imagen -->
+  <div class="background-container">
+    <div class="background-image"></div>
+    <div class="background-overlay"></div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="container">
+    <!-- Botón de regreso -->
+    <div class="back-button-container">
+      <button type="button" class="back-btn" (click)="RegresarLista()">
+        <i class="fas fa-home"></i>Menú
+      </button>
+    </div>
+    
+    <div class="form-preview-wrapper">
+      <!-- === Formulario === -->
+      <div class="form-section">
+        <div class="form-card">
+          <div class="form-header">
+            <h3>
+              <i class="fas {{ edit ? 'fa-edit' : 'fa-plus' }} me-2"></i>
+              {{ edit ? 'Actualizar Disciplina' : 'Registro de Disciplina' }}
+            </h3>
+            <p>Completa la información de la disciplina</p>
+          </div>
+          <div class="form-body">
+            <form>
+              <!-- Información Básica -->
+              <div class="form-section-group">
+                <h4 class="section-title">
+                  <i class="fas fa-info-circle me-2"></i>Información Básica
+                </h4>
+                
+                <div class="form-row">
+                  <!-- ID -->
+                  <div class="form-field">
+                    <label class="field-label">ID de la Disciplina</label>
+                    <div class="input-group">
+                      <span class="input-icon"><i class="fas fa-id-card"></i></span>
+                      <input type="text" name="idDisciplinas" [(ngModel)]="disciplina.idDisciplinas" maxlength="6"
+                        placeholder="ID de la Disciplina" class="input-field text-uppercase"
+                        (input)="disciplina.idDisciplinas = ($any(disciplina.idDisciplinas) || '').toUpperCase()"
+                        [readonly]="edit" [class.bg-light]="edit" [class.text-muted]="edit" autofocus>
+                    </div>
+                    <small class="error-message" *ngIf="errores['idDisciplinas']">
+                      <i class="fas fa-exclamation-circle me-1"></i>{{ errores['idDisciplinas'] }}
+                    </small>
+                  </div>
+
+                  <!-- Nombre -->
+                  <div class="form-field">
+                    <label class="field-label">Nombre de la Disciplina</label>
+                    <div class="input-group">
+                      <span class="input-icon"><i class="fas fa-tag"></i></span>
+                      <input type="text"
+                        name="nombreDisciplina"
+                        [(ngModel)]="disciplina.nombreDisciplina"
+                        class="input-field text-uppercase"
+                        (input)="disciplina.nombreDisciplina = ($any(disciplina.nombreDisciplina) || '').toUpperCase()"
+                        placeholder="Nombre de la Disciplina">
+                    </div>
+                    <small class="error-message" *ngIf="errores['nombreDisciplina']">
+                      <i class="fas fa-exclamation-circle me-1"></i>{{ errores['nombreDisciplina'] }}
+                    </small>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <!-- Nivel -->
+                  <div class="form-field">
+                    <label class="field-label">Nivel</label>
+                    <div class="input-group">
+                      <span class="input-icon"><i class="fas fa-chart-line"></i></span>
+                      <select name="nivel" [(ngModel)]="disciplina.nivel" class="input-field">
+                        <option value="" disabled selected>Selecciona el nivel</option>
+                        <option value="BÁSICO">BÁSICO</option>
+                        <option value="INTERMEDIO">INTERMEDIO</option>
+                        <option value="AVANZADO">AVANZADO</option>
+                        <option value="EXPERTO">EXPERTO</option>
+                      </select>
+                    </div>
+                    <small class="error-message" *ngIf="errores['nivel']">
+                      <i class="fas fa-exclamation-circle me-1"></i>{{ errores['nivel'] }}
+                    </small>
+                  </div>
+
+                  <!-- Categoría -->
+                  <div class="form-field">
+                    <label class="field-label">Categoría</label>
+                    <div class="input-group">
+                      <span class="input-icon"><i class="fas fa-layer-group"></i></span>
+                      <select name="categoria" [(ngModel)]="disciplina.categoria" class="input-field">
+                        <option value="" disabled selected>Selecciona la categoría</option>
+                        <option value="PRINCIPIANTE">PRINCIPIANTE</option>
+                        <option value="INTERMEDIO">INTERMEDIO</option>
+                        <option value="PROFESIONAL">PROFESIONAL</option>
+                      </select>
+                    </div>
+                    <small class="error-message" *ngIf="errores['categoria']">
+                      <i class="fas fa-exclamation-circle me-1"></i>{{ errores['categoria'] }}
+                    </small>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Detalles de la Disciplina -->
+              <div class="form-section-group">
+                <h4 class="section-title">
+                  <i class="fas fa-cogs me-2"></i>Detalles de la Disciplina
+                </h4>
+                
+                <!-- Descripción -->
+                <div class="form-field full-width">
+                  <label class="field-label">Descripción</label>
+                  <div class="input-group">
+                    <span class="input-icon"><i class="fas fa-file-alt"></i></span>
+                    <textarea name="descripcion" [(ngModel)]="disciplina.descripcion" 
+                              (input)="disciplina.descripcion = ($any(disciplina.descripcion) || '').toUpperCase()"
+                              placeholder="Descripción de la disciplina" class="input-field text-uppercase" rows="3"></textarea>
+                  </div>
+                  <small class="error-message" *ngIf="errores['descripcion']">
+                    <i class="fas fa-exclamation-circle me-1"></i>{{ errores['descripcion'] }}
+                  </small>
+                </div>
+
+                <div class="form-row">
+                  <!-- Duración -->
+                  <div class="form-field">
+                    <label class="field-label">Duración (horas)</label>
+                    <div class="input-group">
+                      <span class="input-icon"><i class="fas fa-clock"></i></span>
+                      <input type="number" name="duracion" [(ngModel)]="disciplina.duracion" 
+                             placeholder="Duración en horas" class="input-field" min="0">
+                    </div>
+                    <small class="error-message" *ngIf="errores['duracion']">
+                      <i class="fas fa-exclamation-circle me-1"></i>{{ errores['duracion'] }}
+                    </small>
+                  </div>
+
+                  <!-- Costo -->
+                  <div class="form-field">
+                    <label class="field-label">Costo</label>
+                    <div class="input-group">
+                      <span class="input-icon"><i class="fas fa-dollar-sign"></i></span>
+                      <input type="number" step="0.01" name="costo" [(ngModel)]="disciplina.costo" 
+                             placeholder="Costo" class="input-field" min="0">
+                    </div>
+                    <small class="error-message" *ngIf="errores['costo']">
+                      <i class="fas fa-exclamation-circle me-1"></i>{{ errores['costo'] }}
+                    </small>
+                  </div>
+                </div>
+
+                <!-- Ubicación -->
+                <div class="form-field full-width">
+                  <label class="field-label">Ubicación</label>
+                  <div class="input-group">
+                    <span class="input-icon"><i class="fas fa-map-marker-alt"></i></span>
+                    <input type="text"
+                          name="ubicacion"
+                          [(ngModel)]="disciplina.ubicacion"
+                          (input)="disciplina.ubicacion = ($any(disciplina.ubicacion) || '').toUpperCase()"
+                          placeholder="Ubicación"
+                          class="input-field text-uppercase">
+                  </div>
+                  <small class="error-message" *ngIf="errores['ubicacion']">
+                    <i class="fas fa-exclamation-circle me-1"></i>{{ errores['ubicacion'] }}
+                  </small>
+                </div>
+              </div>
+
+              <!-- Imagen de la Disciplina -->
+              <div class="form-section-group">
+                <h4 class="section-title">
+                  <i class="fas fa-camera me-2"></i>Imagen de la Disciplina
+                </h4>
+                
+                <!-- Opción 1: Escribir o pegar URL -->
+                <div class="form-field full-width">
+                  <label class="field-label">URL de la Imagen</label>
+                  <div class="input-group">
+                    <span class="input-icon"><i class="fas fa-link"></i></span>
+                    <input type="url" name="imagen" [(ngModel)]="disciplina.imagen"
+                      placeholder="https://ejemplo.com/imagen.jpg" class="input-field">
+                  </div>
+                </div>
+
+                <!-- Opción 2: Seleccionar archivo local -->
+                <div class="form-field full-width">
+                  <label class="field-label">Subir Imagen</label>
+                  <div class="input-group">
+                    <span class="input-icon"><i class="fas fa-upload"></i></span>
+                    <input type="file" accept="image/*" class="input-field" (change)="onFileSelected($event)">
+                  </div>
+                </div>
+
+                <small class="help-text full-width">
+                  <i class="fas fa-info-circle me-1"></i>Puedes subir una imagen o pegar una URL (se tomará una de las dos).
+                </small>
+
+                <small class="error-message full-width" *ngIf="errores['imagen']">
+                  <i class="fas fa-exclamation-circle me-1"></i>{{ errores['imagen'] }}
+                </small>
+              </div>
+
+              <!-- Botones -->
+              <div class="button-section">
+                <button type="button" class="cancel-btn" (click)="cancelar()">
+                  <i class="fas fa-arrow-left me-2"></i>Cancelar
+                </button>
+
+                <button type="button" class="submit-btn"
+                  (click)="submitDisciplina()">
+                  <i class="fas {{ edit ? 'fa-sync-alt' : 'fa-save' }} me-2"></i>
+                  {{ edit ? 'Actualizar' : 'Agregar' }} Disciplina
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- === Vista previa === -->
+      <div class="preview-section">
+        <div class="preview-card">
+          <div class="preview-header">
+            <h4><i class="fas fa-eye me-2"></i>Vista Previa</h4>
+          </div>
+          <div class="preview-body">
+            <div class="preview-content">
+              <div class="preview-image-container">
+                <img [src]="disciplina.imagen || 'https://via.placeholder.com/500x500?text=Sin+imagen'"
+                  class="preview-image">
+              </div>
+              <h4 class="preview-title">
+                {{ (disciplina.idDisciplinas ? disciplina.idDisciplinas + ' - ' : '') + (disciplina.nombreDisciplina || 'Nombre de la Disciplina') }}
+              </h4>
+              <span class="category-badge">{{ disciplina.nivel || 'Sin nivel' }}</span>
+            </div>
+            
+            <div class="preview-info">
+              <div class="info-item">
+                <i class="fas fa-file-alt preview-icon"></i>
+                <div>
+                  <strong>Descripción:</strong> {{ disciplina.descripcion || 'No especificada' }}
+                </div>
+              </div>
+              <div class="info-item">
+                <i class="fas fa-clock preview-icon"></i>
+                <div>
+                  <strong>Duración:</strong> {{ disciplina.duracion || 'No especificada' }} horas
+                </div>
+              </div>
+              <div class="info-item">
+                <i class="fas fa-dollar-sign preview-icon"></i>
+                <div>
+                  <strong>Costo:</strong> {{ disciplina.costo !== undefined && disciplina.costo !== null ? ('$' + disciplina.costo) : 'No especificado' }}
+                </div>
+              </div>
+              <div class="info-item">
+                <i class="fas fa-layer-group preview-icon"></i>
+                <div>
+                  <strong>Categoría:</strong> {{ disciplina.categoria || 'No especificada' }}
+                </div>
+              </div>
+              <div class="info-item">
+                <i class="fas fa-map-marker-alt preview-icon"></i>
+                <div>
+                  <strong>Ubicación:</strong> {{ disciplina.ubicacion || 'No especificada' }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

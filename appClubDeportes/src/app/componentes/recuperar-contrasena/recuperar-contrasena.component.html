@@ -1,0 +1,56 @@
+<div class="login-container">
+  <!-- Sección de imagen a la izquierda -->
+  <div class="login-image-section">
+    <div class="image-background"></div>
+    <div class="image-overlay">
+      <h1>Recupera tu Acceso</h1>
+      <p>Sistema de Gestión Deportiva - Recupera tu contraseña fácilmente</p>
+    </div>
+  </div>
+  
+  <!-- Sección de formulario a la derecha -->
+  <div class="login-form-section">
+    <div class="particles-background" id="particles"></div>
+    <div class="login-wrapper">
+      <div class="login-box">
+        <!-- Icono de candado en la parte superior -->
+        <div class="user-avatar">
+          <i class="fas fa-lock"></i>
+        </div>
+
+        <h2>Recuperar Contraseña</h2>
+        <p class="subtitle">
+          Ingresa tu correo electrónico para recibir tu contraseña
+        </p>
+
+        <div class="form-group">
+          <label for="correo">
+            <i class="fas fa-envelope" style="margin-right: 8px; color: #000;"></i>
+            Correo electrónico
+          </label>
+          <div class="input-container">
+            <input
+              type="email"
+              id="correo"
+              [(ngModel)]="correo"
+              placeholder="Ingresa tu correo"
+            />
+            <span class="input-icon">
+              <i class="fas fa-envelope"></i>
+            </span>
+          </div>
+        </div>
+
+        <button (click)="obtenerContrasena()">Obtener Contraseña</button>
+
+        <p class="mensaje" *ngIf="mensaje">{{ mensaje }}</p>
+
+        <div class="volver">
+          <a routerLink="/login">
+            <i class="fas fa-arrow-left"></i> Volver al inicio de sesión
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

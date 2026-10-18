@@ -1,0 +1,106 @@
+<div class="events-list-container">
+  <!-- Fondo con imagen -->
+  <div class="background-container">
+    <div class="background-image-events"></div>
+    <div class="background-overlay"></div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="container">
+    <!-- Header -->
+    <div class="page-header">
+      <h2>
+        <i class="fas fa-calendar-alt me-2"></i> Eventos Deportivos
+      </h2>
+      <p>Gestiona y visualiza todos los eventos del club</p>
+    </div>
+
+    <!-- Búsqueda de eventos -->
+    <div class="search-container">
+      <div class="search-box">
+        <div class="input-group">
+          <span class="input-icon"><i class="fas fa-search"></i></span>
+          <input type="text" class="search-input"
+                 placeholder="Buscar evento por nombre, lugar o descripción..."
+                 [(ngModel)]="terminoBusqueda" (input)="filtrarEventos()">
+        </div>
+      </div>
+    </div>
+
+    <!-- Mensaje si no hay resultados -->
+    <div *ngIf="eventosFiltrados.length === 0 && terminoBusqueda"
+         class="no-results">
+      <i class="fas fa-calendar-times"></i>
+      <p>No se encontró ningún evento</p>
+      <small>Intenta con otros términos de búsqueda</small>
+    </div>
+    <div class="back-button-container">
+      <a href="/menu" class="back-btn">
+        <i class="fas fa-home"></i>Menú
+      </a>
+    </div>
+
+    <!-- Lista de eventos -->
+    <div class="events-grid">
+      <div class="event-card" *ngFor="let evento of eventosFiltrados">
+        <!-- Header -->
+        <div class="card-header">
+          <div class="event-name">
+            <h3>{{evento.nombreEvento || 'Evento sin nombre'}}</h3>
+            <span class="event-id">ID: {{evento.idEventoDeportivo}}</span>
+          </div>
+          <button *ngIf="evento.idEventoDeportivo" 
+                  class="delete-btn"
+                  (click)="borrarEvento(evento.idEventoDeportivo)" title="Eliminar">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+
+        <!-- Información del evento -->
+        <div class="card-body">
+          <div class="badges-section">
+            <span class="location-badge">
+              <i class="fas fa-map-marker-alt"></i>
+              {{evento.lugar || 'Lugar no especificado'}}
+            </span>
+          </div>
+
+          <div class="event-info">
+            <div class="info-item">
+              <i class="fas fa-info-circle"></i>
+              <div>
+                <strong>Descripción:</strong> 
+                <span>{{evento.descripcion || 'No especificada'}}</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-calendar-day"></i>
+              <div>
+                <strong>Fecha:</strong> 
+                <span>{{evento.fechaEvento ? (evento.fechaEvento | date:'dd/MM/yyyy') : 'No especificada'}}</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-clock"></i>
+              <div>
+                <strong>Hora:</strong> 
+                <span>{{evento.horaEvento || 'No especificada'}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <div class="event-date">
+              <i class="fas fa-calendar-check"></i>
+              <span>Evento registrado</span>
+            </div>
+            
+            <button class="edit-btn" (click)="editarEvento(evento.idEventoDeportivo)">
+              <i class="fas fa-edit me-2"></i> Editar Evento
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

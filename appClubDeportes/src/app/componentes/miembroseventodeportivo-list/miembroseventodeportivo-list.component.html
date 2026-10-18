@@ -1,0 +1,125 @@
+<div class="members-events-list-container">
+  <!-- Fondo con imagen -->
+  <div class="background-container">
+    <div class="background-image"></div>
+    <div class="background-overlay"></div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="container">
+    <!-- Header -->
+    <div class="page-header">
+      <h2>
+        <i class="fas fa-users me-2"></i> Miembros en Eventos Deportivos
+      </h2>
+      <p>Gestiona y visualiza todos los registros de miembros en eventos</p>
+    </div>
+
+    <!-- === Búsqueda de registros === -->
+    <div class="search-container">
+      <div class="search-box">
+        <div class="input-group">
+          <span class="input-icon"><i class="fas fa-search"></i></span>
+          <input type="text" class="search-input" placeholder="Buscar por ID de miembro, evento o registro..."
+            [(ngModel)]="terminoBusqueda" (input)="filtrar()">
+        </div>
+      </div>
+    </div>
+
+    <!-- === Mensaje si no hay resultados === -->
+    <div *ngIf="miembrosEventoDeportivoFiltrados.length === 0 && terminoBusqueda" class="no-results">
+      <i class="fas fa-user-times"></i>
+      <p>No se encontraron registros</p>
+      <small>Intenta con otros términos de búsqueda</small>
+    </div>
+    <div class="back-button-container">
+      <a href="/menu" class="back-btn">
+        <i class="fas fa-home"></i>Menú
+      </a>
+    </div>
+
+
+    <!-- === Grid de registros === -->
+    <div class="members-grid">
+      <div class="member-card" *ngFor="let registro of miembrosEventoDeportivoFiltrados">
+        <!-- Header -->
+        <div class="card-header">
+          <div class="member-name">
+            <h3>Registro #{{registro.idMiembrosEventoDeportivo}}</h3>
+            <span class="member-id">ID: {{registro.idMiembrosEventoDeportivo}}</span>
+          </div>
+          <button *ngIf="registro.idMiembrosEventoDeportivo" class="delete-btn"
+            (click)="eliminar(registro.idMiembrosEventoDeportivo)" title="Eliminar">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+
+        <!-- Sección de información -->
+        <div class="image-section">
+          <div class="no-image">
+            <i class="fas fa-trophy"></i>
+            <p>Registro Deportivo</p>
+          </div>
+        </div>
+
+        <!-- Información -->
+        <div class="card-body">
+          <div class="badges-section">
+            <span class="category-badge">
+              <i class="fas fa-user me-1"></i>
+              Miembro
+            </span>
+            <span class="gender-badge unknown">
+              <i class="fas fa-futbol me-1"></i>
+              Evento
+            </span>
+          </div>
+
+          <div class="member-info">
+            <div class="info-item">
+              <i class="fas fa-user-friends"></i>
+              <div>
+                <strong>Miembro:</strong>
+                <span>{{ getNombreMiembro(registro.Miembros_idMiembros) || 'No especificado' }}</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-calendar-alt"></i>
+              <div>
+                <strong>Evento Deportivo:</strong>
+                <span>{{ getNombreEvento(registro.EventoDeportivo_idEventoDeportivo) || 'No especificado' }}</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-hashtag"></i>
+              <div>
+                <strong>ID Miembro:</strong>
+                <span>{{ registro.Miembros_idMiembros || 'No especificado' }}</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-hashtag"></i>
+              <div>
+                <strong>ID Evento:</strong>
+                <span>{{ registro.EventoDeportivo_idEventoDeportivo || 'No especificado' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <div class="birth-date">
+              <i class="fas fa-check-circle"></i>
+              <span>Registro activo</span>
+            </div>
+            <div>
+              <!-- Botón de actualizar -->
+              <button type="button" class="btn btn-success" (click)="editar(registro.idMiembrosEventoDeportivo!)">
+                <i class="fas fa-edit me-1"></i> {{ 'Editar Registro' }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

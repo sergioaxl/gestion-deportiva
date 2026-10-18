@@ -1,0 +1,5 @@
+<app-navigation *ngIf="router.url !== '/login' && router.url !== '/menu'&& router.url !== '/cambio'&& router.url !== '/registro'"></app-navigation>
+
+<div class="container p-4">
+  <router-outlet></router-outlet>
+</div>

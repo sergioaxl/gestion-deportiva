@@ -1,0 +1,113 @@
+<div class="members-list-container">
+  <!-- Fondo con imagen -->
+  <div class="background-container">
+    <div class="background-image"></div>
+    <div class="background-overlay"></div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="container">
+    <!-- Header -->
+    <div class="page-header">
+      <h2>
+        <i class="fas fa-users me-2"></i> Lista de Usuarios
+      </h2>
+      <p>Gestiona y visualiza todos los usuarios registrados</p>
+    </div>
+
+    <!-- === Búsqueda de usuarios === -->
+    <div class="search-container">
+      <div class="search-box">
+        <div class="input-group">
+          <span class="input-icon"><i class="fas fa-search"></i></span>
+          <input type="text" class="search-input"
+                 placeholder="Buscar por usuario ID de miembro..."
+                 [(ngModel)]="terminoBusqueda" (input)="filtrar()">
+        </div>
+      </div>
+    </div>
+
+    <!-- === Mensaje si no hay resultados === -->
+    <div *ngIf="usuariosFiltrados.length === 0 && terminoBusqueda"
+         class="no-results">
+      <i class="fas fa-user-times"></i>
+      <p>No se encontraron usuarios</p>
+      <small>Intenta con otros términos de búsqueda</small>
+    </div>
+
+    <div class="back-button-container">
+      <a href="/menu" class="back-btn">
+        <i class="fas fa-home"></i>Menú
+      </a>
+    </div>
+
+    <!-- === Lista de usuarios === -->
+    <div class="members-grid">
+      <div class="member-card" *ngFor="let usuario of usuariosFiltrados">
+        <!-- Header -->
+        <div class="card-header">
+          <div class="member-name">
+            <h3>Usuario #{{ usuario.id }}</h3>
+            <span class="member-id">ID: {{ usuario.id }}</span>
+          </div>
+          <button *ngIf="usuario.id" 
+                  class="delete-btn"
+                  (click)="eliminar(usuario.id)" title="Eliminar">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+
+        <!-- Información -->
+        <div class="card-body">
+          <div class="badges-section">
+            <span class="category-badge">{{ usuario.rol || 'Sin rol' }}</span>
+            <span class="gender-badge unknown">
+              <i class="fas fa-user-cog"></i>
+              {{ usuario.idMiembro ? 'Con Miembro' : 'Sin Miembro' }}
+            </span>
+          </div>
+
+          <div class="member-info">
+            <div class="info-item">
+              <i class="fas fa-id-card"></i>
+              <div>
+                <strong>ID Miembro:</strong> 
+                <span>{{ usuario.idMiembro || 'No especificado' }}</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-user"></i>
+              <div>
+                <strong>Usuario:</strong> 
+                <span>{{ usuario.usuario || 'No especificado' }}</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-shield-alt"></i>
+              <div>
+                <strong>Rol:</strong> 
+                <span>{{ usuario.rol || 'No especificado' }}</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-calendar-plus"></i>
+              <div>
+                <strong>Creado en:</strong> 
+                <span>{{ usuario.created_at | date:'dd/MM/yyyy HH:mm' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <div class="birth-date">
+              <i class="fas fa-clock"></i>
+              <span>Última actualización: {{ usuario.created_at | date:'dd/MM/yyyy' }}</span>
+            </div>
+            
+            <!-- Botón de editar ELIMINADO según solicitud -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
